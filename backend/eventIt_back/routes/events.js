@@ -2,7 +2,7 @@ const express=require('express');
 const _=require('lodash');
 const router=express.Router();
 const {Event,validate_event}=require('../models/event');
-
+const logger=require('../logger');
 
 router.get('/',async(req,res)=>{
     const events=await Event.find();
@@ -22,5 +22,23 @@ router.post('/',async (req,res)=>{
     res.send(event);
 
 });
+
+router.put('/:id',async (req,res)=>{
+    try{
+        const result=await Event.findOneAndUpdate({_id:req.params.id},{
+            $set :{
+                name: req.body.name,
+                description:req.body.description,
+                date:req.body.date
+            }
+        });
+        res.send(result);
+    }catch(err){
+        res.send(err.message);
+    }
+
+});
+
+
 
 module.exports=router;
