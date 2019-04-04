@@ -1,36 +1,40 @@
 const mongoose=require('mongoose');
 const bcrypt=require('bcrypt');
 const jwt = require('jsonwebtoken');
+const Joi=require('joi');
+const logger=require('../logger');
 
 const userSchema=mongoose.Schema({
     email:String,
     hash:String
 });
 
-userSchema.methods.setPassword=async function(password){
-    const salt=await bcrypt.genSalt(10);
-    this.hash=await bcrypt.hash(password,salt);
+userSchema.methods.setPassword= function(password){
+    const salt= bcrypt.genSaltSync(10);
+    this.hash= bcrypt.hashSync(password,salt); 
 };
 
-userSchema.methods.validatePassword=async function(password){
-    return await bcrypt.compare(password,this.hash);
+userSchema.methods.validatePassword= function(password){
+
+    return  bcrypt.compareSync(password,this.hash);
 };
 
-userSchema.methods.generateJWT=function(){
+userSchema.methods.generateAuthToken=function(){
     return jwt.sign({
         email: this.email,
         id: this._id,
       }, 'secret');   
 };
 
-userSchema.methods.toAuthJSON = function() {
-    return {
-      _id: this._id,
-      email: this.email,
-      token: this.generateJWT(),
-    };
+function validateUser(user){
+    const schema={
+        email: Joi.string().min(8).max(50).email().required(),
+        password: Joi.string().min(5).max(50).required()
+    }
 };
+
 
 const User=mongoose.model('User',userSchema);
 
-module.exports=User;
+exports.User=User;
+exports.validateUser=validateUser;
