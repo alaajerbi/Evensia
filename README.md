@@ -15,6 +15,7 @@ Ex. -
 <b>Built with</b>
 - [Node.js](https://nodejs.org/en/)
 - [Express](https://expressjs.com/) Fast, unopinionated, minimalist web framework for Node.js
+- [React](https://reactjs.org/)A JavaScript library for building user interfaces
 
 ## Features
 What makes your project stand out?
