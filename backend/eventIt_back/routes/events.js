@@ -4,6 +4,15 @@ const router=express.Router();
 const {Event,validate_event}=require('../models/event');
 const logger=require('../logger');
 
+const multer=require('multer');
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './uploads/')
+    }
+  });
+const upload=multer({storage:storage});
+
+
 router.get('/',async(req,res)=>{
     const events=await Event.find();
     res.send(events);
@@ -17,7 +26,9 @@ router.post('/',async (req,res)=>{
     let event=await Event.findOne({name:req.body.name});
     if(event) return res.send('event already created');
 
-    event=new Event(_.pick(req.body,['name','description','date']));
+    event=new Event(_.pick(req.body,['name','description','date','designColor']));
+    // logger.info(req.file);
+    // event.img=req.file;
     await event.save();
     res.send(event);
 
@@ -29,7 +40,8 @@ router.put('/:id',async (req,res)=>{
             $set :{
                 name: req.body.name,
                 description:req.body.description,
-                date:req.body.date
+                date:req.body.date,
+                designColor:req.body.designColor
             }
         });
         res.send(result);
@@ -38,6 +50,7 @@ router.put('/:id',async (req,res)=>{
     }
 
 });
+
 
 
 

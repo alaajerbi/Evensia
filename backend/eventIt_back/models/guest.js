@@ -22,6 +22,10 @@ const guestSchema=new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'Event',
         required:true
+    },
+    gender:{
+        type :String,
+        required:true
     }
 });
 
@@ -33,7 +37,8 @@ function validate_guest(guest){
         description:Joi.string().max(255),
         tel:Joi.number(),
         present:Joi.boolean(),
-        eventId:Joi.objectId()
+        eventId:Joi.objectId(),
+        gender:Joi.string().required()
     };
     return Joi.validate(guest,schema);
 }

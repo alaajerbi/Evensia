@@ -12,6 +12,12 @@ const eventSchema=new mongoose.Schema({
     date:{
        type:Date,
        required:true 
+    },
+    designColor:{
+        type:String
+    },
+    img:{
+        type:String
     }
 });
 
@@ -21,7 +27,8 @@ function validate_event(event){
     const schema={
         name : Joi.string().required(),
         description:Joi.string().max(255),
-        date:Joi.string().required()
+        date:Joi.string().required(),
+        designColor:Joi.string()
     };
     return Joi.validate(event,schema);
 }

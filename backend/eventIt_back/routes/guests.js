@@ -10,7 +10,12 @@ router.get('/',async(req,res)=>{
 
 });
 
-router.get('/:eventId',async(req,res)=>{
+router.get('/:id',async (req,res)=>{
+    const guest=await Guest.find({_id:req.params.id});
+    res.send(guest);
+});
+
+router.get('/event/:eventId',async(req,res)=>{
     const guest=await Guest.find({eventId:req.params.eventId});
     res.send(guest);
 });
@@ -23,7 +28,7 @@ router.post('/',async (req,res)=>{
     let guest=await Guest.findOne({name:req.body.name});
     if(guest) return res.send('guest exists');
 
-    guest=new Guest(_.pick(req.body,['name','description','tel','eventId']));
+    guest=new Guest(_.pick(req.body,['name','description','tel','eventId','gender']));
     await guest.save();
     res.send(guest);
 
