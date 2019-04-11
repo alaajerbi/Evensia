@@ -23,6 +23,12 @@ router.get('/',wrapper(async(req,res,next)=>{
     res.send(events);
 }));
 
+router.get('/:id',wrapper(async(req,res)=>{
+    const event=await Event.findById(req.params.id);
+    res.send(event);
+}));
+
+
 router.post('/',wrapper(async (req,res)=>{
     const {error}=validate_event(req.body);
     if(error) return res.status(400).send(error.details[0].message);
@@ -56,6 +62,11 @@ router.put('/:id',wrapper(async (req,res)=>{
     });
     res.send(result);
 
+}));
+
+router.delete('/:id',wrapper(async (req,res)=>{
+    const result=await Event.findByIdAndDelete(req.params.id);
+    res.send(result);
 }));
 
 

@@ -3,13 +3,20 @@ const router=express.Router();
 const {User,validateUser}=require('../models/user');
 const auth=require('../middleware/auth');
 const logger=require('../logger');
+const wrapper=require('../middleware/async_midlleware');
 
-router.get('/',auth,async (req,res)=>{
+
+router.get('/',auth,wrapper(async (req,res)=>{
     const users=await User.find();
     res.send(users);
-});
+}));
 
-router.post('/',async (req,res)=>{
+router.get('/:id',wrapper(async (req,res)=>{
+    const users=await User.findById(req.params.id);
+    res.send(users);
+}));
+
+router.post('/',wrapper(async (req,res)=>{
     const err=validateUser(req.body);
     if(err) return res.status(400).send(err.details[0].message);
 
@@ -22,6 +29,15 @@ router.post('/',async (req,res)=>{
 
     await user.save();
     res.send(user);
-});
+}));
+
+router.put('/:id',wrapper(async(req,res)=>{
+
+}));    
+
+router.delete('/:id',wrapper(async(req,res)=>{
+    const user=await User.findByIdAndDelete(req.params.id);
+    res.send(user);
+}));
 
 module.exports=router;
