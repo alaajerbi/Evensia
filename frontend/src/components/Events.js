@@ -9,7 +9,7 @@ class Events extends Component {
                 <Row>
                     {my_events.map(item =>
                         <Col lg="3">
-                            <div style={{backgroundColor: "yellow"}}>
+                            <div >
                                 {item}
                             </div>
 

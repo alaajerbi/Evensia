@@ -10,15 +10,17 @@ import Events from "./components/Events";
 class App extends Component {
   render() {
     return (
-    <BrowserRouter>
-      <div>
+        <div>
         <Sidebarr/>
+    <BrowserRouter>
+      <div style={{paddingLeft:"100px"}}>
         <Route exact path="/" component={LandingPage}/>
         <Route path="/dashboard" component={Dashboard}/>
         <Route path="/guests" component={Guests}/>
         <Route path="/events" component={Events}/>
       </div>
     </BrowserRouter>
+        </div>
     );
   }
 }

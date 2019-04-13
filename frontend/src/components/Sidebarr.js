@@ -1,25 +1,29 @@
 import React from "react";
 import SideNav, { NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import {FaMailBulk, FaHome, FaUsers, FaTasks, FaBoxes} from "react-icons/fa";
 
 class Sidebarr extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            selected: "home"
+        }
     }
     render() {
         return (
             <SideNav
                 onSelect={(selected) => {
-                    console.log(this.props);
-                    //this.props.history.push("/guests")
+                    this.props.history.push('/dashboard')
                 }}
+
             >
                 <SideNav.Toggle />
                 <SideNav.Nav defaultSelected="home">
                     <NavItem eventKey="home">
                         <NavIcon>
-                            <i className="fa fa-fw fa-home" style={{ fontSize: '1.75em' }} />
+                            <FaHome style={{ fontSize: '1.75em' }} />
                         </NavIcon>
                         <NavText>
                             Home
@@ -27,32 +31,28 @@ class Sidebarr extends React.Component {
                     </NavItem>
                     <NavItem eventKey="guests">
                         <NavIcon>
-                            <i className="fa fa-fw fa-line-chart" style={{ fontSize: '1.75em' }} />
-                        </NavIcon>
+                            <FaUsers style={{ fontSize: '1.75em' }} />                        </NavIcon>
                         <NavText>
                             Guests
                         </NavText>
                     </NavItem>
                     <NavItem eventKey="tasks">
                         <NavIcon>
-                            <i className="fa fa-fw fa-line-chart" style={{ fontSize: '1.75em' }} />
-                        </NavIcon>
+                            <FaTasks style={{ fontSize: '1.75em' }} />                        </NavIcon>
                         <NavText>
                             Tasks
                         </NavText>
                     </NavItem>
                     <NavItem eventKey="ressources">
                         <NavIcon>
-                            <i className="fa fa-fw fa-line-chart" style={{ fontSize: '1.75em' }} />
-                        </NavIcon>
+                            <FaBoxes style={{ fontSize: '1.75em' }} />                        </NavIcon>
                         <NavText>
                             Ressources
                         </NavText>
                     </NavItem>
                     <NavItem eventKey="contacts">
                         <NavIcon>
-                            <i className="fa fa-fw fa-line-chart" style={{ fontSize: '1.75em' }} />
-                        </NavIcon>
+                            <FaMailBulk style={{ fontSize: '1.75em' }} />                        </NavIcon>
                         <NavText>
                             Contacts
                         </NavText>
