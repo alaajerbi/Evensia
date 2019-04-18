@@ -12,7 +12,7 @@ const guestSchema=new mongoose.Schema({
         type:String
     },
     tel:{
-        type:Number
+        type:String
     },
     present:{
        type:Boolean,
@@ -35,7 +35,7 @@ function validate_guest(guest){
     const schema={
         name : Joi.string().required(),
         description:Joi.string().max(255),
-        tel:Joi.number(),
+        tel:Joi.number().max(8),
         present:Joi.boolean(),
         eventId:Joi.objectId(),
         gender:Joi.string().required()
