@@ -33,15 +33,15 @@ class Events extends Component {
     render() {
         return (
             <div>
+                <h4>Upcoming events</h4>
                 <Row>
                     {this.state.events.map(item =>
                         <Col lg="3">
                             <Event
-                            name={ "test"}
-                            date={"mardi 2019"}
+                            name={ item.name}
+                            date={item.date}
                             img={"https://images.pexels.com/photos/34153/pexels-photo.jpg?auto=compress&cs=tinysrgb&h=350"}
                             />
-
                         </Col>
                     )}
 

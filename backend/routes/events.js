@@ -8,10 +8,10 @@ const wrapper=require('../middleware/async_midlleware');
 const multer=require('multer');
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, './uploads/')
+      cb(null, '../uploads/')
     },
     filename: function (req, file, cb) {
-      cb(null, file.fieldname + '-' + Date.now()+'.png')
+      cb(null, file.fieldname + '-' + Date.now()+'.jpg')
     }
   });
 const upload=multer({storage:storage});
