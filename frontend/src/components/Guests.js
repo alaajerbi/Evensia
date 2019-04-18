@@ -51,8 +51,11 @@ class Guests extends Component {
             description: this.state.description,
             gender: this.state.gender,
             eventId: this.state.eventId,
-            present: this.state.present
+            present: ""+this.state.present
         }
+
+        console.log(newGuest);
+        
         axios.post(api, newGuest)
             .then(res => {
                 console.log(res.data);
@@ -66,18 +69,9 @@ class Guests extends Component {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
-
-        
-        if(name == "present"){
-            console.log(value);
-            this.setState({present : true} );
-        }
-        else {
             this.setState({
                 [name]: value
             });
-        }
-        console.log(this.state.present)
     }
 
     componentDidMount(){
@@ -85,7 +79,7 @@ class Guests extends Component {
     }
 
     render() {
-        console.log(this.state.guests);
+        console.log(this.state.present)
         return (
             <div>
                 <h3>Guests</h3>
@@ -145,7 +139,7 @@ class Guests extends Component {
                         Phone Number:
                         <input
                         name="tel"
-                        type="number"
+                        type="text"
                         value={this.state.tel}
                         onChange={this.handleInputChange} />
                     </label>
