@@ -47,7 +47,7 @@ router.put('/:id',wrapper(async (req,res)=>{
 
 }));
 
-router.delete('/:id',wrapper((req,res)=>{
+router.delete('/:id',wrapper(async (req,res)=>{
     const guest=await Guest.findByIdAndDelete(req.params.id);
     res.send(guest);
 }));
