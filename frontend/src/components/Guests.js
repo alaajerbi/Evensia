@@ -28,7 +28,7 @@ class Guests extends Component {
       guests: [],
       show: false,
       name: "",
-      tel: 0,
+      tel: "",
       description: "",
       present: false,
       gender: "Male",
@@ -77,8 +77,8 @@ class Guests extends Component {
     const name = target.name;
 
     this.setState({
-        [name]: value
-    })
+      [name]: value
+    });
   }
 
   componentDidMount() {
@@ -90,10 +90,10 @@ class Guests extends Component {
     return (
       <Container>
         <Row className="mt-5 mb-3">
-          <Col lg={8}>
+          <Col lg={8} md={8} sm={8}>
             <h3>Guests</h3>
           </Col>
-          <Col lg={4}>
+          <Col lg={4} md={4} sm={4}>
             <Button
               variant="danger"
               className="float-right"
@@ -128,12 +128,17 @@ class Guests extends Component {
                   <td>
                     <h3>
                       {" "}
-                      <FaCheck />
+                      <FaCheck
+                        style={{
+                          fontSize: 18,
+                          display: "block",
+                          margin: "0 auto"
+                        }}
+                      />
                     </h3>
                   </td>
                 ) : (
                   <td>
-                    <h3 />
                   </td>
                 )}
               </tr>
@@ -148,7 +153,7 @@ class Guests extends Component {
             <Form>
               <FormGroup>
                 <Form.Label>Name of guest:</Form.Label>
-                <Form.Control
+                <FormControl
                   size="lg"
                   type="text"
                   value={this.state.name}
@@ -158,19 +163,27 @@ class Guests extends Component {
                 />
               </FormGroup>
               <FormGroup>
-                <Form.Label>Phone number:</Form.Label>
-                <Form.Control
+                <Form.Label>Phone number (8 numbers):</Form.Label>
+                <FormControl
                   size="lg"
                   type="text"
                   value={this.state.tel}
                   onChange={this.handleInputChange}
                   name="tel"
-                  placeholder=""
+                  placeholder="E.g: 55 123 456"
                 />
               </FormGroup>
               <FormGroup>
+                <Form.Label>Gender</Form.Label>
+                <Form.Control name="gender" as="select" value={this.state.gender} onChange={this.handleInputChange}>
+                  <option>Male</option>
+                  <option>Female</option>
+                </Form.Control>
+              </FormGroup>
+
+              <FormGroup>
                 <Form.Label>Description:</Form.Label>
-                <Form.Control
+                <FormControl
                   as="textarea"
                   rows="3"
                   value={this.state.description}

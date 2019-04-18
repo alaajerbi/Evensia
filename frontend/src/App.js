@@ -11,7 +11,7 @@ class App extends Component {
   render() {
     return (
         <div>
-        <Sidebarr/>
+        {/*<Sidebarr/>*/}
     <BrowserRouter>
       <div style={{paddingLeft:"100px"}}>
         <Route exact path="/" component={LandingPage}/>

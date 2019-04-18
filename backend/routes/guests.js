@@ -29,7 +29,7 @@ router.post('/',wrapper(async (req,res)=>{
     let guest=await Guest.findOne({name:req.body.name});
     if(guest) return res.send('guest exists');
 
-    guest=new Guest(_.pick(req.body,['name','description','tel','eventId','gender']));
+    guest=new Guest(_.pick(req.body,['name','description','tel','eventId','gender','present']));
     await guest.save();
     res.send(guest);
 
