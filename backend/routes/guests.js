@@ -24,7 +24,10 @@ router.get('/event/:eventId',wrapper(async(req,res)=>{
 
 router.post('/',wrapper(async (req,res)=>{
     const {error}=validate_guest(req.body);
-    if(error) return res.status(400).send(error.details[0].message);
+    if(error) {
+        console.log(error);
+        return res.status(400).send(error.details[0].message);
+    }
 
     let guest=await Guest.findOne({name:req.body.name});
     if(guest) return res.send('guest exists');
