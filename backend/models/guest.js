@@ -35,7 +35,7 @@ function validate_guest(guest){
     const schema={
         name : Joi.string().required(),
         description:Joi.string().max(255),
-        tel:Joi.number().max(8),
+        tel:Joi.string().required(),
         present:Joi.boolean(),
         eventId:Joi.objectId(),
         gender:Joi.string().required()
