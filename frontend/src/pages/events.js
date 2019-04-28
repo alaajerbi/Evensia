@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Row, Col, CardDeck } from "react-bootstrap";
+import { Row, Col, CardColumns } from "react-bootstrap";
 import EventCard from "../components/EventCard";
 import { Alert, AlertLink, Container } from "react-bootstrap";
 import axios from "axios";
@@ -51,19 +51,16 @@ function EventList(props) {
   return (
     <div>
       <h2>Your events:</h2>
-      <CardDeck className='mt-2'>
+      <CardColumns className='mt-2'>
         {events.map((event, id) => {
           return (
             <EventCard
               key={id}
-              name={event.name}
-              date={event.date}
-              description={event.description}
-              color={event.designColor}
+              event={event}
             />
           );
         })}
-      </CardDeck>
+      </CardColumns>
     </div>
   );
 }

@@ -18,6 +18,9 @@ const eventSchema=new mongoose.Schema({
     },
     img:{
         type:String
+    },
+    location: {
+        type: String
     }
 });
 
@@ -28,7 +31,8 @@ function validate_event(event){
         name : Joi.string().required(),
         description:Joi.string().max(255),
         date:Joi.string().required(),
-        designColor:Joi.string()
+        designColor:Joi.string(),
+        location: Joi.string()
     };
     return Joi.validate(event,schema);
 }

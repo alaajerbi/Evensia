@@ -29,21 +29,32 @@ router.post(
     const { error } = validate_event(req.body);
 
     if (error) {
-      return res.status(400).send(error.details[0].message);
+      return res.json({
+        status: 'error',
+        error: error.details[0].message
+      });
     }
 
     let event = await Event.findOne({ name: req.body.name });
     if (event) {
-      return res.send("event already created");
+      return res.json({status: 'error', error:"event already created"});
     }
 
     event = new Event(
-      _.pick(req.body, ["name", "description", "date", "designColor"])
+      _.pick(req.body, ["name", "description", "date", "designColor", "location"])
     );
 
-    await event.save().catch(err => console.log(err));
+    await event.save().catch(err => {
+      console.log(err);
+      res.json({
+      status: 'error',
+      error: err._message
+    })});
 
-    res.send(event);
+    res.json({
+      status: 'success',
+      event
+    });
   })
 );
 
