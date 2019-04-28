@@ -4,7 +4,6 @@ import Dashboard from "./components/Dashboard";
 import LandingPage from "./components/LandingPage";
 import { BrowserRouter, Route} from "react-router-dom"
 import Guests from "./components/Guests";
-import Sidebarr from './components/Sidebarr'
 import Events from "./components/Events";
 
 class App extends Component {

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Row, Col} from "react-bootstrap";
 import {Event} from "./components";
+import { Alert, AlertLink, Container } from 'react-bootstrap'; 
 import axios from "axios";
 
 const api = "http://localhost:3009/events"
@@ -19,6 +20,7 @@ class Events extends Component {
     fetchData() {
         axios.get(api)
             .then(response => {
+                console.log(response.data);
                 this.setState({ events: response.data });
             })
             .catch(function (error){
@@ -31,22 +33,26 @@ class Events extends Component {
     }
 
     render() {
+        let {events} = this.state;
         return (
-            <div>
-                <Row>
-                    {this.state.events.map(item =>
-                        <Col lg="3">
-                            <Event
-                            name={ "test"}
-                            date={"mardi 2019"}
-                            img={"https://images.pexels.com/photos/34153/pexels-photo.jpg?auto=compress&cs=tinysrgb&h=350"}
-                            />
+            <Container className='mt-5'>
+               {
+                   (events.length === 0 && 
+                   <Alert variant='warning'>
+                    You've got no events right now. Start by <Alert.Link href="events/create">creating a new event.</Alert.Link>
+                   </Alert>)
 
-                        </Col>
-                    )}
+                   ||
 
-                </Row>
-            </div>
+                   events.map((event, id) => {
+                        return (<Event 
+                        name={event.name}
+                        date={event.date}
+                        img={event.img} />)
+                   })
+
+               }
+            </Container>
         );
     }
 }
