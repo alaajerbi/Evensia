@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Row, Col} from "react-bootstrap";
-import {Event} from "./components";
+import Event from "../components/Event";
 import { Alert, AlertLink, Container } from 'react-bootstrap'; 
 import axios from "axios";
 

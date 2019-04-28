@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import './App.css';
-import Dashboard from "./components/Dashboard";
-import LandingPage from "./components/LandingPage";
+import Dashboard from "./pages/dashboard";
+import LandingPage from "./pages/landing";
 import { BrowserRouter, Route} from "react-router-dom"
-import Guests from "./components/Guests";
-import Events from "./components/Events";
+import Guests from "./pages/guests";
+import Events from "./pages/events";
 
 class App extends Component {
   render() {

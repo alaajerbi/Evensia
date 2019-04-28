@@ -19,4 +19,4 @@ class Event extends Component {
         );
     }
 }
-export default Event ;
+export default Event;
