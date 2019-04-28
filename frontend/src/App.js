@@ -5,6 +5,7 @@ import LandingPage from "./pages/landing";
 import { BrowserRouter, Route} from "react-router-dom"
 import Guests from "./pages/guests";
 import Events from "./pages/events";
+import EventForm from './pages/event_form';
 
 class App extends Component {
   render() {
@@ -16,7 +17,8 @@ class App extends Component {
         <Route exact path="/" component={LandingPage}/>
         <Route path="/dashboard" component={Dashboard}/>
         <Route path="/guests" component={Guests}/>
-        <Route path="/events" component={Events}/>
+        <Route exact path="/events" component={Events}/>
+        <Route path="/events/create" component={EventForm}/>
       </div>
     </BrowserRouter>
         </div>
