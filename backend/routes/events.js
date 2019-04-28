@@ -1,66 +1,92 @@
-const express=require('express');
-const router=express.Router();
-const {Event,validate_event}=require('../models/event');
+const express = require("express");
+const router = express.Router();
+const { Event, validate_event } = require("../models/event");
 
-const _=require('lodash');
-const logger=require('../logger');
-const wrapper=require('../middleware/async_midlleware');
-const upload=require('../file_uploader');
+const _ = require("lodash");
+const logger = require("../logger");
+const wrapper = require("../middleware/async_midlleware");
+const upload = require("../file_uploader");
 
-
-
-router.get('/',wrapper(async(req,res,next)=>{
-    const events=await Event.find();
+router.get(
+  "/",
+  wrapper(async (req, res, next) => {
+    const events = await Event.find();
     res.send(events);
-}));
+  })
+);
 
-router.get('/:id',wrapper(async(req,res)=>{
-    const event=await Event.findById(req.params.id);
+router.get(
+  "/:id",
+  wrapper(async (req, res) => {
+    const event = await Event.findById(req.params.id);
     res.send(event);
-}));
+  })
+);
 
+router.post(
+  "/",
+  wrapper(async (req, res) => {
+    const { error } = validate_event(req.body);
 
-router.post('/',wrapper(async (req,res)=>{
-    const {error}=validate_event(req.body);
-    if(error) return res.status(400).send(error.details[0].message);
+    if (error) {
+      return res.status(400).send(error.details[0].message);
+    }
 
-    let event=await Event.findOne({name:req.body.name});
-    if(event) return res.send('event already created');
+    let event = await Event.findOne({ name: req.body.name });
+    if (event) {
+      return res.send("event already created");
+    }
 
-    event=new Event(_.pick(req.body,['name','description','date','designColor']));
-    await event.save();
+    event = new Event(
+      _.pick(req.body, ["name", "description", "date", "designColor"])
+    );
+
+    await event.save().catch(err => console.log(err));
+
     res.send(event);
+  })
+);
 
-}));
-
-router.post('/img/:id',upload.single('avatar'),wrapper(async (req,res)=>{
-    const result= await Event.findOneAndUpdate({_id:req.params.id},{
+router.post(
+  "/img/:id",
+  upload.single("avatar"),
+  wrapper(async (req, res) => {
+    const result = await Event.findOneAndUpdate(
+      { _id: req.params.id },
+      {
         $set: {
-            img: req.file.filename
+          img: req.file.filename
         }
-    })
+      }
+    );
     res.send(result);
-}));
+  })
+);
 
-router.put('/:id',wrapper(async (req,res)=>{
-    const result=await Event.findOneAndUpdate({_id:req.params.id},{
-        $set :{
-            name: req.body.name,
-            description:req.body.description,
-            date:req.body.date,
-            designColor:req.body.designColor
+router.put(
+  "/:id",
+  wrapper(async (req, res) => {
+    const result = await Event.findOneAndUpdate(
+      { _id: req.params.id },
+      {
+        $set: {
+          name: req.body.name,
+          description: req.body.description,
+          date: req.body.date,
+          designColor: req.body.designColor
         }
-    });
+      }
+    );
     res.send(result);
+  })
+);
 
-}));
-
-router.delete('/:id',wrapper(async (req,res)=>{
-    const result=await Event.findByIdAndDelete(req.params.id);
+router.delete(
+  "/:id",
+  wrapper(async (req, res) => {
+    const result = await Event.findByIdAndDelete(req.params.id);
     res.send(result);
-}));
+  })
+);
 
-
-
-
-module.exports=router;
+module.exports = router;
