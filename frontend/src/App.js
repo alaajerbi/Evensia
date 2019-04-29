@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import './App.css';
-import Dashboard from "./components/Dashboard";
-import LandingPage from "./components/LandingPage";
+import Dashboard from "./pages/dashboard";
+import LandingPage from "./pages/landing";
 import { BrowserRouter, Route} from "react-router-dom"
-import Guests from "./components/Guests";
-import Sidebarr from './components/Sidebarr'
-import Events from "./components/Events";
+import Guests from "./pages/guests";
+import Events from "./pages/events";
+import EventForm from './pages/event_form';
 
 class App extends Component {
   render() {
@@ -17,7 +17,8 @@ class App extends Component {
         <Route exact path="/" component={LandingPage}/>
         <Route path="/dashboard" component={Dashboard}/>
         <Route path="/guests" component={Guests}/>
-        <Route path="/events" component={Events}/>
+        <Route exact path="/events" component={Events}/>
+        <Route path="/events/create" component={EventForm}/>
       </div>
     </BrowserRouter>
         </div>
