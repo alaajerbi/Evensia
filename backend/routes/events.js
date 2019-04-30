@@ -7,9 +7,12 @@ const _ = require("lodash");
 const logger = require("../logger");
 const wrapper = require("../middleware/async_midlleware");
 const upload = require("../file_uploader");
+const auth=require('../middleware/auth');
+
 
 router.get(
   "/",
+  auth,
   wrapper(async (req, res, next) => {
     const events = await Event.find();
     res.send(events);
