@@ -12,6 +12,7 @@ import Event from "../components/EventCard";
 import { CirclePicker } from "react-color";
 import { Alert, AlertLink, Container } from "react-bootstrap";
 import axios from "axios";
+import {Link} from 'react-router-dom';
 
 class EventForm extends Component {
   constructor(props) {
@@ -96,12 +97,12 @@ class EventForm extends Component {
   render() {
     let { loading, status, error } = this.state;
     return (
-      <Container className="mt-5">
+      <Container className="mt-5 mb-5">
         {(loading && <h4>Creating your event...Please wait</h4>) ||
-          (status === "success" && (
+          (status === "success" &&(
             <Alert variant="success">
               Event successfully created! <br />
-              <Alert.Link href="/events">Go to your events</Alert.Link>
+              <Link to='/events' style={{ textDecoration: "none" }}>Go to your events</Link>
             </Alert>
           )) ||
           (status === "error" && (

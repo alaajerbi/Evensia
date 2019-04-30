@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { Row, Col, CardColumns } from "react-bootstrap";
+import { Row, Col, CardColumns, Button } from "react-bootstrap";
 import EventCard from "../components/EventCard";
+import { Link } from "react-router-dom";
 import { Alert, AlertLink, Container } from "react-bootstrap";
 import axios from "axios";
 
@@ -13,6 +14,9 @@ class Events extends Component {
     this.state = {
       events: []
     };
+
+    this.fetchData = this.fetchData.bind(this);
+    this.handleEventDelete = this.handleEventDelete.bind(this);
   }
 
   fetchData() {
@@ -27,6 +31,22 @@ class Events extends Component {
       });
   }
 
+  handleEventDelete(eventId) {
+    if(window.confirm("Are you sure you want to delete this event?")) {
+      const api = 'http://localhost:3009/events/' + eventId;
+      axios.delete(api)
+      .then(res => {
+        this.fetchData();
+      })
+      .catch(err => {
+        console.log(err);
+        alert('Error occured while deleting!');
+      });
+    }
+    
+
+  }
+
   componentDidMount() {
     this.fetchData();
   }
@@ -38,9 +58,9 @@ class Events extends Component {
         {(events.length === 0 && (
           <Alert variant="warning">
             You've got no events right now. Start by{" "}
-            <Alert.Link href="events/create">creating a new event.</Alert.Link>
+            <Link to='/events/create'><Alert.Link href='/events/create'>creating a new event.</Alert.Link></Link>
           </Alert>
-        )) || <EventList events={events} />}
+        )) || <EventList events={events} onDelete={this.handleEventDelete}/>}
       </Container>
     );
   }
@@ -50,15 +70,25 @@ function EventList(props) {
   let { events } = props;
   return (
     <div>
-      <h2>Your events:</h2>
-      <CardColumns className='mt-2'>
+      <Row className="mt-5 mb-3">
+        <Col lg={8} md={8} sm={8}>
+          <h3>Your events</h3>
+        </Col>
+        <Col lg={4} md={4} sm={4}>
+          <Link to="/events/create" style={{ textDecoration: "none" }}>
+            <Button
+              variant="danger"
+              className="float-right"
+              style={{ marginRight: "20px" }}
+            >
+              Add Event
+            </Button>
+          </Link>
+        </Col>
+      </Row>
+      <CardColumns className="mt-2">
         {events.map((event, id) => {
-          return (
-            <EventCard
-              key={id}
-              event={event}
-            />
-          );
+          return <EventCard key={id} event={event} onEventDelete={props.onDelete}/>;
         })}
       </CardColumns>
     </div>
