@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../assets/css/login.css'
+// import '../assets/css/login.css'
 import axios from "axios";
 import {
   Button,
@@ -41,7 +41,7 @@ handleLogin() {
     }
 }
   axios.post(api, newUser, reqHeaders).then(res => {
-    console.log(res.data);
+    console.log(res);
   });
 
   // axios({
