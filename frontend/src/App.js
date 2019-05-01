@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import Dashboard from "./pages/dashboard";
-import LandingPage from "./pages/landing";
+import {Dashboard,LandingPage,Guests,Events,Login,EventForm} from "./pages";
 import { BrowserRouter, Route} from "react-router-dom"
 import Guests from "./pages/guests";
 import Events from "./pages/events";
@@ -15,8 +14,10 @@ class App extends Component {
         <div>
         {/*<Sidebarr/>*/}
     <BrowserRouter>
-      <div style={{paddingLeft:"100px"}}>
+    <div>
+      {/* <div style={{paddingLeft:"100px"}}> */}
         <Route exact path="/" component={LandingPage}/>
+        <Route path="/login" component={Login}/>
         <Route path="/dashboard" component={Dashboard}/>
         <Route path="/guests" component={Guests}/>
         <Route exact path="/events" component={Events}/>
