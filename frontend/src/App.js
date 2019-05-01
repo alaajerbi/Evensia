@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import './App.css';
-import {Dashboard,LandingPage,Guests,Events,Login,EventForm} from "./pages";
-import { BrowserRouter, Route} from "react-router-dom"
+import { BrowserRouter, Route} from "react-router-dom";
+import LandingPage from "./pages/landing";
+import Login from './pages/Login';
+import Dashboard from './pages/dashboard';
 import Guests from "./pages/guests";
 import Events from "./pages/events";
 import Event from "./pages/event";
-import EventEdit from './pages/edit_event';
+import EditEvent from './pages/edit_event';
 import AddEvent from './pages/add_event';
 
 class App extends Component {
@@ -23,7 +25,7 @@ class App extends Component {
         <Route exact path="/events" component={Events}/>
         <Route path="/events/create" component={AddEvent}/>
         <Route exact path='/event/:eventId' component={Event} />
-        <Route path='/event/:eventId/edit' component={EventEdit} />
+        <Route path='/event/:eventId/edit' component={EditEvent} />
       </div>
     </BrowserRouter>
         </div>
