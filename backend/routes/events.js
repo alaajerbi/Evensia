@@ -19,6 +19,14 @@ router.get(
 );
 
 router.get(
+  "/user/:id",
+  wrapper(async (req, res, next) => {
+    const events = await Event.find({userId:req.params.id});
+    res.send(events);
+  })
+);
+
+router.get(
   "/:id",
   wrapper(async (req, res) => {
     const event = await Event.findById(req.params.id);
@@ -44,7 +52,7 @@ router.post(
     }
 
     event = new Event(
-      _.pick(req.body, ["name", "description", "date", "designColor", "location"])
+      _.pick(req.body, ["name", "description", "date", "designColor", "location","userId"])
     );
 
     await event.save().catch(err => {
