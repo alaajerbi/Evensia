@@ -4,11 +4,13 @@ import Guests from "./guests";
 import Events from "./events";
 import Login from "./Login";
 import EventForm from './event_form';
+import Tasks from './tasks';
 export {
     Dashboard,
     LandingPage,
     Guests,
     Events,
     Login,
-    EventForm
+    EventForm,
+    Tasks
 }

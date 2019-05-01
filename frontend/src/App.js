@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import {Dashboard,LandingPage,Guests,Events,Login,EventForm} from "./pages";
+import {Dashboard,LandingPage,Guests,Events,Login,EventForm,Tasks} from "./pages";
 import { BrowserRouter, Route} from "react-router-dom"
 
 class App extends Component {
@@ -15,6 +15,7 @@ class App extends Component {
         <Route path="/login" component={Login}/>
         <Route path="/dashboard" component={Dashboard}/>
         <Route path="/guests" component={Guests}/>
+        <Route path="/tasks" component={Tasks}/>
         <Route exact path="/events" component={Events}/>
         <Route path="/events/create" component={EventForm}/>
         <Route path='/event/:eventId' component={Event} />
