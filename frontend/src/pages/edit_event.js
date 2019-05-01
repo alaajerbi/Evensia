@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import axios from "axios";
 import EventForm from '../components/EventForm';
 
+const api = "http://localhost:3009/events/";
+
 class EditEvent extends Component {
   state = {
     event: null
@@ -10,9 +12,9 @@ class EditEvent extends Component {
   componentDidMount() {
     const { eventId } = this.props.match.params;
 
-    const api = "http://localhost:3009/events/" + eventId;
+     
     axios
-      .get(api)
+      .get(api + eventId)
       .then(res => {
         const event = res.data;
         const date = new Date(event.date);
@@ -25,7 +27,19 @@ class EditEvent extends Component {
   }
 
   handleEdit(event) {
-      
+    let { _id, name, description, date, location, designColor } = event;
+
+      axios.put(api + _id, {
+        name,
+        description,
+        date,
+        location,
+        designColor
+      })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => console.log(err));
   }
 
   render() {

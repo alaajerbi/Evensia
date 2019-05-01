@@ -88,6 +88,7 @@ router.put(
           name: req.body.name,
           description: req.body.description,
           date: req.body.date,
+          location: req.body.location,
           designColor: req.body.designColor
         }
       }
