@@ -37,6 +37,7 @@ class Guests extends Component {
   }
 
   handleClose() {
+    localStorage.removeItem('token')
     this.setState({ show: false });
   }
 
@@ -86,7 +87,7 @@ class Guests extends Component {
   }
 
   render() {
-    console.log(this.state.guests);
+    console.log(localStorage.getItem('token'));
     return (
       <Container>
         <Row className="mt-5 mb-3">

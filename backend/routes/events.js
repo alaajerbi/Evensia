@@ -12,7 +12,6 @@ const auth=require('../middleware/auth');
 
 router.get(
   "/",
-  auth,
   wrapper(async (req, res, next) => {
     const events = await Event.find();
     res.send(events);
