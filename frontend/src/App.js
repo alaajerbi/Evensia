@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import {Dashboard,LandingPage,Guests,Events,Login,EventForm,Tasks} from "./pages";
+import {Dashboard,LandingPage,Guests,Events,Login,Event,Tasks,EventEdit,AddEvent} from "./pages";
 import { BrowserRouter, Route} from "react-router-dom"
 
 class App extends Component {
@@ -17,8 +17,9 @@ class App extends Component {
         <Route path="/guests" component={Guests}/>
         <Route path="/tasks" component={Tasks}/>
         <Route exact path="/events" component={Events}/>
-        <Route path="/events/create" component={EventForm}/>
-        <Route path='/event/:eventId' component={Event} />
+        <Route path="/events/create" component={AddEvent}/>
+        <Route exact path='/event/:eventId' component={Event} />
+        <Route path='/event/:eventId/edit' component={EventEdit} />
       </div>
     </BrowserRouter>
         </div>

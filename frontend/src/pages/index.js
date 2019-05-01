@@ -3,14 +3,18 @@ import LandingPage from "./landing";
 import Guests from "./guests";
 import Events from "./events";
 import Login from "./Login";
-import EventForm from './event_form';
+import EditEvent from './edit_event';
 import Tasks from './tasks';
+import AddEvent from './add_event';
+import Event from './event';
 export {
     Dashboard,
     LandingPage,
     Guests,
     Events,
     Login,
-    EventForm,
-    Tasks
+    EditEvent,
+    AddEvent,
+    Tasks,
+    Event
 }
