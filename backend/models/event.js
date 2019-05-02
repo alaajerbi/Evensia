@@ -21,6 +21,11 @@ const eventSchema=new mongoose.Schema({
     },
     location: {
         type: String
+    },
+    userId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'User',
+        required:true
     }
 });
 
@@ -32,7 +37,9 @@ function validate_event(event){
         description:Joi.string().max(255),
         date:Joi.string().required(),
         designColor:Joi.string(),
-        location: Joi.string()
+        location: Joi.string(),
+        userId:Joi.objectId()
+
     };
     return Joi.validate(event,schema);
 }
