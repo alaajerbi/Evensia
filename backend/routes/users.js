@@ -26,6 +26,7 @@ router.post('/',wrapper(async (req,res)=>{
     user=new User({email:req.body.email,fullName:req.body.fullName});
     user.setPassword(req.body.password);
     // logger.info(user);
+
     await user.save();
     res.send(user);
 }));
