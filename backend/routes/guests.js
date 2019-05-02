@@ -43,7 +43,8 @@ router.put('/:id',wrapper(async (req,res)=>{
         $set :{
             name: req.body.name,
             description:req.body.description,
-            tel:req.body.date
+            tel:req.body.date,
+            present :req.body.present
         }
     });
     res.send(result);
