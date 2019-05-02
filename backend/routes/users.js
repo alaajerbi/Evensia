@@ -23,7 +23,7 @@ router.post('/',wrapper(async (req,res)=>{
     let user=await User.findOne({email: req.body.email});
     if(user) return res.status(400).send('User already Registred');
 
-    user=new User({email:req.body.email});
+    user=new User({email:req.body.email,fullName:req.body.fullName});
     user.setPassword(req.body.password);
     // logger.info(user);
 

@@ -8,17 +8,19 @@ import {
   FormGroup
 } from "react-bootstrap";
 
-const api = "http://localhost:3009/auth";
+const api = "http://localhost:3009/users";
 
 class Login extends Component {
 constructor(props){
   super(props);
   this.state={
   email:'',
-  password:''
+  password:'',
+  fullName:'',
+  confirmPassword:'',
   }
   this.handleInputChange = this.handleInputChange.bind(this);
-  this.handleLogin = this.handleLogin.bind(this);
+  this.handleSignup = this.handleSignup.bind(this);
  }
 
  handleInputChange(event) {
@@ -30,10 +32,11 @@ constructor(props){
   });
 }
 
-handleLogin() {
+handleSignup() {
   const newUser = {
     email: this.state.email,
     password: this.state.password,
+    fullName: this.state.fullName,
   };
   const reqHeaders = {
     'headers': {
@@ -41,8 +44,7 @@ handleLogin() {
     }
 }
   axios.post(api, newUser, reqHeaders).then(res => {
-    localStorage.setItem("token",res.headers.token)
-    console.log(res.headers.token);
+    console.log(res);
   });
 
   // axios({
@@ -67,6 +69,18 @@ render() {
           <span>
             <Form>
             <FormGroup>
+            <Form.Label>Full Name:</Form.Label>
+                <FormControl
+                  size="md"
+                  type="fullName"
+                  value={this.state.fullName}
+                  onChange={this.handleInputChange}
+                  name="fullName"
+                  placeholder="Full Name"
+                />
+              </FormGroup>
+            <FormGroup></FormGroup>  
+            <FormGroup>
             <Form.Label>Email:</Form.Label>
                 <FormControl
                   size="md"
@@ -85,6 +99,18 @@ render() {
                   value={this.state.password}
                   onChange={this.handleInputChange}
                   name="password"
+                  placeholder="password"
+                />
+              </FormGroup>
+
+              <FormGroup>
+            <Form.Label>Confirm Password:</Form.Label>
+                <FormControl
+                  size="md"
+                  type="password"
+                  value={this.state.confirmPassword}
+                  onChange={this.handleInputChange}
+                  name="confirmPassword"
                   placeholder="password"
                 />
               </FormGroup>

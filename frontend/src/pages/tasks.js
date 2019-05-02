@@ -14,9 +14,9 @@ import { FaCheck } from "react-icons/fa";
 import "../assets/css/Guests.css";
 import axios from "axios";
 
-const api = "http://localhost:3009/guests";
+const api = "http://localhost:3009/tasks";
 
-class Guests extends Component {
+class Tasks extends Component {
   constructor(props) {
     super(props);
     this.handleShow = this.handleShow.bind(this);
@@ -25,19 +25,16 @@ class Guests extends Component {
     this.handleInputChange = this.handleInputChange.bind(this);
 
     this.state = {
-      guests: [],
+      tasks: [],
       show: false,
-      name: "",
-      tel: "",
       description: "",
-      present: false,
-      gender: "Male",
-      eventId: "5cb8131de52ed8555cd72a87"
+      time: "",
+      done: false,
+      eventId: "5cc6d76bd22e0834096bfa1b"
     };
   }
 
   handleClose() {
-    localStorage.removeItem('token')
     this.setState({ show: false });
   }
 
@@ -49,7 +46,7 @@ class Guests extends Component {
     axios
       .get(api)
       .then(response => {
-        this.setState({ guests: response.data });
+        this.setState({ tasks: response.data });
       })
       .catch(function(error) {
         console.log(error);
@@ -57,15 +54,13 @@ class Guests extends Component {
   }
 
   handleSave() {
-    const newGuest = {
-      name: this.state.name,
-      tel: this.state.tel,
+    alert(this.state.done);
+    const newTask = {
       description: this.state.description,
-      gender: this.state.gender,
-      eventId: this.state.eventId,
-      present: "" + this.state.present
+      time: this.state.time,
+      eventId: this.state.eventId
     };
-    axios.post(api, newGuest).then(res => {
+    axios.post(api, newTask).then(res => {
       console.log(res.data);
       this.fetchData();
     });
@@ -87,12 +82,12 @@ class Guests extends Component {
   }
 
   render() {
-    console.log(localStorage.getItem('token'));
+    console.log(this.state.guests);
     return (
       <Container>
         <Row className="mt-5 mb-3">
           <Col lg={8} md={8} sm={8}>
-            <h3>Guests</h3>
+            <h3>Tasks</h3>
           </Col>
           <Col lg={4} md={4} sm={4}>
             <Button
@@ -101,7 +96,7 @@ class Guests extends Component {
               style={{ marginRight: "20px" }}
               onClick={this.handleShow}
             >
-              Add Guest
+              Add Task
             </Button>
           </Col>
         </Row>
@@ -110,22 +105,18 @@ class Guests extends Component {
           <thead>
             <tr>
               <th>N°</th>
-              <th>Name</th>
-              <th>Phone</th>
               <th>Description</th>
-              <th>Gender</th>
-              <th>Presence</th>
+              <th>Time</th>
+              <th>Done</th>
             </tr>
           </thead>
           <tbody>
-            {this.state.guests.map(guest => (
+            {this.state.tasks.map(task => (
               <tr>
-                <td>{guest.id}</td>
-                <td> {guest.name} </td>
-                <td> {guest.tel}</td>
-                <td>{guest.description}</td>
-                <td>{guest.gender}</td>
-                {guest.present ? (
+                <td>{task.id}</td>
+                <td>{task.description}</td>
+                <td>{task.time}</td>
+                {task.done ? (
                   <td>
                     <h3>
                       {" "}
@@ -148,57 +139,30 @@ class Guests extends Component {
         </Table>
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Add a Guest</Modal.Title>
+            <Modal.Title>Add a Task</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form>
               <FormGroup>
-                <Form.Label>Name of guest:</Form.Label>
+                <Form.Label>Description of task:</Form.Label>
                 <FormControl
                   size="lg"
                   type="text"
-                  value={this.state.name}
-                  onChange={this.handleInputChange}
-                  name="name"
-                  placeholder="E.g: John Doe"
-                />
-              </FormGroup>
-              <FormGroup>
-                <Form.Label>Phone number (8 numbers):</Form.Label>
-                <FormControl
-                  size="lg"
-                  type="text"
-                  value={this.state.tel}
-                  onChange={this.handleInputChange}
-                  name="tel"
-                  placeholder="E.g: 55 123 456"
-                />
-              </FormGroup>
-              <FormGroup>
-                <Form.Label>Gender</Form.Label>
-                <Form.Control name="gender" as="select" value={this.state.gender} onChange={this.handleInputChange}>
-                  <option>Male</option>
-                  <option>Female</option>
-                </Form.Control>
-              </FormGroup>
-
-              <FormGroup>
-                <Form.Label>Description:</Form.Label>
-                <FormControl
-                  as="textarea"
-                  rows="3"
                   value={this.state.description}
                   onChange={this.handleInputChange}
                   name="description"
+                  placeholder="E.g: buy food"
                 />
               </FormGroup>
               <FormGroup>
-                <Form.Check
-                  name="present"
+                <Form.Label>Time :</Form.Label>
+                <FormControl
+                  size="lg"
+                  type="text"
+                  value={this.state.time}
                   onChange={this.handleInputChange}
-                  checked={this.state.present}
-                  type="checkbox"
-                  label="Is attending?"
+                  name="time"
+                  placeholder="E.g: 28/04/2019"
                 />
               </FormGroup>
             </Form>
@@ -216,4 +180,4 @@ class Guests extends Component {
     );
   }
 }
-export default Guests;
+export default Tasks;

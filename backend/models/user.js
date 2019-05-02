@@ -6,7 +6,8 @@ const logger=require('../logger');
 
 const userSchema=mongoose.Schema({
     email:String,
-    hash:String
+    hash:String,
+    fullName:String
 });
 
 userSchema.methods.setPassword= function(password){
@@ -29,7 +30,8 @@ userSchema.methods.generateAuthToken=function(){
 function validateUser(user){
     const schema={
         email: Joi.string().min(8).max(50).email().required(),
-        password: Joi.string().min(5).max(50).required()
+        password: Joi.string().min(5).max(50).required(),
+        fullName:Joi.string().min(5).max(50).required()
     }
 };
 
