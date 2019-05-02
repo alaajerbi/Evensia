@@ -29,14 +29,17 @@ class App extends Component {
           <div>
             {/* <div style={{paddingLeft:"100px"}}> */}
 
-<Switch>
+
             <Route path="/login" component={Login} />
             <Route path="/" component={(localStorage.getItem('token') === null) ? Login : LandingPage} />
             <Route path="/dashboard" component={(localStorage.getItem('token') === null) ? Login : Dashboard} />
             <Route path="/guests" component={(localStorage.getItem('token') === null) ? Login : Guests} />
             <Route path="/tasks" component={(localStorage.getItem('token') === null) ? Login : Tasks } />
+            <Switch>
             <Route exact path="/event/:eventId/edit" component={(localStorage.getItem('token') == null) ? Login : EditEvent } />
             <Route exact path="/event/:eventId" component={(localStorage.getItem('token') === null) ? Login: Event} />
+          </Switch>
+          <Switch>
             <Route exact path="/events" component={(localStorage.getItem('token') === null) ? Login : Events} />
             <Route path="/events/create" component={(localStorage.getItem('token') === null) ?  Login : AddEvent} />
           </Switch>
