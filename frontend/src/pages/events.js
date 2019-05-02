@@ -4,6 +4,7 @@ import EventCard from "../components/EventCard";
 import { Link } from "react-router-dom";
 import { Alert, AlertLink, Container } from "react-bootstrap";
 import axios from "axios";
+import AuthPage from "../components/AuthPage";
 
 const api = "http://localhost:3009/events";
 
@@ -32,19 +33,18 @@ class Events extends Component {
   }
 
   handleEventDelete(eventId) {
-    if(window.confirm("Are you sure you want to delete this event?")) {
-      const api = 'http://localhost:3009/events/' + eventId;
-      axios.delete(api)
-      .then(res => {
-        this.fetchData();
-      })
-      .catch(err => {
-        console.log(err);
-        alert('Error occured while deleting!');
-      });
+    if (window.confirm("Are you sure you want to delete this event?")) {
+      const api = "http://localhost:3009/events/" + eventId;
+      axios
+        .delete(api)
+        .then(res => {
+          this.fetchData();
+        })
+        .catch(err => {
+          console.log(err);
+          alert("Error occured while deleting!");
+        });
     }
-    
-
   }
 
   componentDidMount() {
@@ -54,14 +54,20 @@ class Events extends Component {
   render() {
     let { events } = this.state;
     return (
-      <Container className="mt-5">
-        {(events.length === 0 && (
-          <Alert variant="warning">
-            You've got no events right now. Start by{" "}
-            <Link to='/events/create'><Alert.Link href='/events/create'>creating a new event.</Alert.Link></Link>
-          </Alert>
-        )) || <EventList events={events} onDelete={this.handleEventDelete}/>}
-      </Container>
+      <AuthPage>
+        <Container className="mt-5">
+          {(events.length === 0 && (
+            <Alert variant="warning">
+              You've got no events right now. Start by{" "}
+              <Link to="/events/create">
+                <Alert.Link href="/events/create">
+                  creating a new event.
+                </Alert.Link>
+              </Link>
+            </Alert>
+          )) || <EventList events={events} onDelete={this.handleEventDelete} />}
+        </Container>
+      </AuthPage>
     );
   }
 }
@@ -88,7 +94,9 @@ function EventList(props) {
       </Row>
       <CardColumns className="mt-2">
         {events.map((event, id) => {
-          return <EventCard key={id} event={event} onEventDelete={props.onDelete}/>;
+          return (
+            <EventCard key={id} event={event} onEventDelete={props.onDelete} />
+          );
         })}
       </CardColumns>
     </div>

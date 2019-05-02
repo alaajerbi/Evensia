@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import EventForm from "../components/EventForm";
 import { Alert, AlertLink } from "react-bootstrap";
+import AuthPage from "../components/AuthPage";
 
 const api = "http://localhost:3009/events/";
 
@@ -74,16 +75,16 @@ class EditEvent extends Component {
 
   render() {
     const { event, loading, status } = this.state;
-
+    let content;
     if (loading) {
-      return <p>Loading...</p>;
+      content = <p>Loading...</p>;
     } else {
       if (status === "success") {
-        return <Alert variant="success">Event successfully updated! <Alert.Link href="">Go back</Alert.Link></Alert>
+        content = <Alert variant="success">Event successfully updated! <Alert.Link href="">Go back</Alert.Link></Alert>
       } else if (status === "failed") {
-        return <Alert variant="danger">Update failed!</Alert>
+        content = <Alert variant="danger">Update failed!</Alert>
       } else {
-        return (
+        content = (
           <EventForm
             name={event.name}
             description={event.description}
@@ -96,6 +97,7 @@ class EditEvent extends Component {
         );
       }
     }
+    return(<AuthPage>{content}</AuthPage>)
   }
 }
 

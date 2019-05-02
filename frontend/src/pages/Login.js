@@ -1,73 +1,75 @@
-import React, { Component } from 'react';
-import '../assets/css/login.css'
+import React, { Component } from "react";
+import "../assets/css/login.css";
 import axios from "axios";
-import {
-  Button,
-  Form,
-  FormControl,
-  FormGroup
-} from "react-bootstrap";
-
+import { Button, Form, FormControl, FormGroup } from "react-bootstrap";
+import  { Redirect } from "react-router-dom";
 const api = "http://localhost:3009/auth";
 
 class Login extends Component {
-constructor(props){
-  super(props);
-  this.state={
-  email:'',
-  password:''
+  constructor(props) {
+    super(props);
+    this.state = {
+      redirect: false,
+      email: "",
+      password: ""
+    };
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
   }
-  this.handleInputChange = this.handleInputChange.bind(this);
-  this.handleLogin = this.handleLogin.bind(this);
- }
 
- handleInputChange(event) {
-  const target = event.target;
-  const value = target.value;
-  const name = target.name;
-  this.setState({
-    [name]: value
-  });
-}
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+    this.setState({
+      [name]: value
+    });
+  }
 
-handleLogin() {
-  const newUser = {
-    email: this.state.email,
-    password: this.state.password,
-  };
-  const reqHeaders = {
-    'headers': {
-        'Access-Control-Allow-Headers': 'token',
-    }
-}
-  axios.post(api, newUser, reqHeaders).then(res => {
-    localStorage.setItem("token",res.headers.token)
-    console.log(res.headers.token);
-  });
+  handleLogin() {
+    const newUser = {
+      email: this.state.email,
+      password: this.state.password
+    };
+    const reqHeaders = {
+      headers: {
+        "Access-Control-Allow-Headers": "token"
+      }
+    };
+    axios.post(api, newUser, reqHeaders).then(res => {
+      localStorage.setItem("token", res.headers.token);
+      console.log(res.headers.token);
+      this.setState({
+        redirect: true
+      });
+    });
 
-  // axios({
-  //   data : newUser,
-  //   method: 'post',
-  //   url: api,
-  //   headers: {
-  //     'Access-Control-Allow-Origin': '*',
-  //     'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE',
-  //     'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
-  //     'Content-Type': 'application/json',
-  //     'Access-Control-Expose-Headers': 'Access-Token, Uid'
-  //       }
-  // }).then(res => {
-  //   console.log(res.headers);
-  // });
-
-}
-render() {
-    return (
-      <div>
+    // axios({
+    //   data : newUser,
+    //   method: 'post',
+    //   url: api,
+    //   headers: {
+    //     'Access-Control-Allow-Origin': '*',
+    //     'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE',
+    //     'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
+    //     'Content-Type': 'application/json',
+    //     'Access-Control-Expose-Headers': 'Access-Token, Uid'
+    //       }
+    // }).then(res => {
+    //   console.log(res.headers);
+    // });
+  }
+  render() {
+    let { redirect } = this.state;
+    if (redirect) {
+      return <Redirect to="/dashboard" />;
+    } else {
+      return (
+        <div>
           <span>
             <Form>
-            <FormGroup>
-            <Form.Label>Email:</Form.Label>
+              <FormGroup>
+                <Form.Label>Email:</Form.Label>
                 <FormControl
                   size="md"
                   type="email"
@@ -77,8 +79,8 @@ render() {
                   placeholder="email"
                 />
               </FormGroup>
-            <FormGroup>
-            <Form.Label>Password:</Form.Label>
+              <FormGroup>
+                <Form.Label>Password:</Form.Label>
                 <FormControl
                   size="md"
                   type="password"
@@ -88,18 +90,17 @@ render() {
                   placeholder="password"
                 />
               </FormGroup>
-            <Button variant="primary" onClick={this.handleLogin}>
-              Login
-            </Button>
+              <Button variant="primary" onClick={this.handleLogin}>
+                Login
+              </Button>
             </Form>
-        </span>
-        
+          </span>
         </div>
-            
-    );
+      );
+    }
   }
 }
 const style = {
- margin: 15,
+  margin: 15
 };
 export default Login;
