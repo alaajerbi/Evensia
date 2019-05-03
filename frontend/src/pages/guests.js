@@ -13,6 +13,7 @@ import {
   Dropdown
 } from "react-bootstrap";
 import { FaCheck } from "react-icons/fa";
+import "../assets/css/Guests.css";
 import axios from "axios";
 
 const api = "http://localhost:3009/guests";
@@ -23,6 +24,7 @@ class Guests extends Component {
     this.handleShow = this.handleShow.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleSave = this.handleSave.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.fetchData = this.fetchData.bind(this);
     this.handleShowPresence = this.handleShowPresence.bind(this);
@@ -121,6 +123,13 @@ class Guests extends Component {
     });
   }
 
+  handleDelete(guestId) {
+    axios.delete(api+'/'+guestId).then(res => {
+      console.log(res.data);
+      this.fetchData();
+    });
+  }
+
   componentDidMount() {
     const { eventId } = this.props.match.params;
     this.setState({
@@ -174,7 +183,7 @@ class Guests extends Component {
           <tbody>
             {this.state.guests.map(guest => (
               <tr>
-                <td>{guest.id}</td>
+                <td>{this.state.guests.indexOf(guest)}</td>
                 <td> {guest.name} </td>
                 <td> {guest.tel}</td>
                 <td>{guest.description}</td>
@@ -189,16 +198,13 @@ class Guests extends Component {
                   </td>
                   ):(<td>
                   </td>)}
-
                   <td>
                   <DropdownButton id="dropdown-basic-button" title={
         <span><i className="fa fa-user fa-fw"></i> </span>
       }>
-  <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-  <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-  <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+  <Dropdown.Item onClick= {() => this.handleDelete(guest._id)}>Delete</Dropdown.Item>
 </DropdownButton>
-</td>
+                  </td>
               </tr>
             ))}
           </tbody>
