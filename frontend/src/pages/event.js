@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import AuthPage from "../components/AuthPage";
 
 class Event extends Component {
   state = {
@@ -21,9 +22,10 @@ class Event extends Component {
   render() {
     let { event } = this.state;
     return (
-        (!event && <p>Loading..</p>)
-        || (<p>{event.name}</p>)
-    )
+      <AuthPage>
+        (!event && <p>Loading..</p>) || (<p>{event.name}</p>)
+      </AuthPage>
+    );
   }
 }
 

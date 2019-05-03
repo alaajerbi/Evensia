@@ -1,35 +1,57 @@
 import React, { Component } from "react";
 import axios from "axios";
-import EventForm from '../components/EventForm';
+import EventForm from "../components/EventForm";
+import { Alert, AlertLink } from "react-bootstrap";
+import AuthPage from "../components/AuthPage";
 
 const api = "http://localhost:3009/events/";
 
 class EditEvent extends Component {
-  state = {
-    event: null
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      event: null,
+      loading: true,
+      status: null
+    };
+
+    this.handleEdit = this.handleEdit.bind(this);
+  }
 
   componentDidMount() {
     const { eventId } = this.props.match.params;
 
-     
     axios
       .get(api + eventId)
       .then(res => {
         const event = res.data;
         const date = new Date(event.date);
-        event.date = date.toISOString().split('T')[0].split('-').reverse().join('/');
+        event.date = date
+          .toISOString()
+          .split("T")[0]
+          .split("-")
+          .reverse()
+          .join("/");
         this.setState({
-          event
+          event,
+          loading: false
         });
       })
       .catch(err => console.log(err));
   }
 
   handleEdit(event) {
-    let { _id, name, description, date, location, designColor } = event;
+    this.setState({
+      loading: true
+    });
+    let eventId = this.state.event._id;
+    console.log(eventId);
+    let { name, description, date, location, designColor } = event;
+    console.log(name);
 
-      axios.put(api + _id, {
+    axios
+      .put(api + eventId, {
         name,
         description,
         date,
@@ -37,28 +59,45 @@ class EditEvent extends Component {
         designColor
       })
       .then(res => {
-        console.log(res);
+        this.setState({
+          loading: false,
+          status: "success"
+        });
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err);
+        this.setState({
+          loading: false,
+          status: "failed"
+        });
+      });
   }
 
   render() {
-      const {event} = this.state;
-   
-      if(event !== null && event !== undefined) {
-        return ( <EventForm name={event.name} 
-          description={event.description}
-          date={event.date}
-          location={event.location}
-          designColor={event.designColor}
-          
-          submitBtn='Edit event'
-          onSave={this.handleEdit}
-          />);
+    const { event, loading, status } = this.state;
+    let content;
+    if (loading) {
+      content = <p>Loading...</p>;
+    } else {
+      if (status === "success") {
+        content = <Alert variant="success">Event successfully updated! <Alert.Link href="">Go back</Alert.Link></Alert>
+      } else if (status === "failed") {
+        content = <Alert variant="danger">Update failed!</Alert>
+      } else {
+        content = (
+          <EventForm
+            name={event.name}
+            description={event.description}
+            date={event.date}
+            location={event.location}
+            designColor={event.designColor}
+            submitBtn="Edit event"
+            onSave={this.handleEdit}
+          />
+        );
       }
-      else {
-        return <p>Loading...</p>
-      }
+    }
+    return(<AuthPage>{content}</AuthPage>)
   }
 }
 
