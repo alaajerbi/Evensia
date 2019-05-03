@@ -15,6 +15,8 @@ import {
 import { FaCheck } from "react-icons/fa";
 import "../assets/css/Guests.css";
 import axios from "axios";
+import AwesomeNavbar from '../components/AwesomeNavbar';
+import AuthPage from "../components/AuthPage";
 
 const api = "http://localhost:3009/guests";
 
@@ -141,6 +143,8 @@ class Guests extends Component {
   render() {
     console.log(this.state.guests);
     return (
+      <AuthPage>
+        <AwesomeNavbar />
       <Container>
         <Row className="mt-5 mb-3">
           <Col lg={6} md={6} sm={6}>
@@ -276,6 +280,8 @@ class Guests extends Component {
           </Modal.Footer>
         </Modal>
       </Container>
+
+      </AuthPage>
     );
   }
 }

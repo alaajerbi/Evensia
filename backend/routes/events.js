@@ -22,6 +22,7 @@ router.get(
   "/user/:id",
   wrapper(async (req, res, next) => {
     const events = await Event.find({userId:req.params.id});
+    console.log(events);
     res.send(events);
   })
 );
@@ -30,6 +31,8 @@ router.get(
   "/:id",
   wrapper(async (req, res) => {
     const event = await Event.findById(req.params.id);
+    console.log(event);
+
     res.send(event);
   })
 );
