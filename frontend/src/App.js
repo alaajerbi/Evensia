@@ -27,6 +27,7 @@ class App extends Component {
             <Route path="/tasks" component={Tasks} />
             <Route exact path="/event/:eventId/edit" component={EditEvent} />
             <Route exact path="/event/:eventId/guests" component={Guests} />
+            <Route exact path="/event/:eventId/tasks" component={Tasks} />
             <Route exact path="/event/:eventId" component={Event} />
             <Route exact path="/events" component={Events} />
             <Route path="/events/create" component={AddEvent} />

@@ -8,7 +8,9 @@ import {
   Col,
   Form,
   FormControl,
-  FormGroup
+  FormGroup,
+  DropdownButton,
+  Dropdown
 } from "react-bootstrap";
 import { FaCheck } from "react-icons/fa";
 import "../assets/css/Guests.css";
@@ -22,19 +24,24 @@ class Tasks extends Component {
     this.handleShow = this.handleShow.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleSave = this.handleSave.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.fetchData = this.fetchData.bind(this);
+    this.handleCompletedChange = this.handleCompletedChange.bind(this);
 
     this.state = {
       tasks: [],
+      completedTasks: [],
       show: false,
       description: "",
       time: "",
       done: false,
-      eventId: "5cc6d76bd22e0834096bfa1b"
+      eventId: ""
     };
   }
 
   handleClose() {
+    localStorage.removeItem('token')
     this.setState({ show: false });
   }
 
@@ -46,7 +53,16 @@ class Tasks extends Component {
     axios
       .get(api)
       .then(response => {
-        this.setState({ tasks: response.data });
+        let tasks = []
+        let completedTasks = []
+        response.data.forEach(element => {
+          if(element.eventId === this.state.eventId){
+            if(element.done === true) completedTasks.push(element)
+            else tasks.push(element);
+          }
+        });
+
+        this.setState({ tasks: tasks , completedTasks: completedTasks });
       })
       .catch(function(error) {
         console.log(error);
@@ -54,7 +70,6 @@ class Tasks extends Component {
   }
 
   handleSave() {
-    alert(this.state.done);
     const newTask = {
       description: this.state.description,
       time: this.state.time,
@@ -77,7 +92,42 @@ class Tasks extends Component {
     });
   }
 
+  handleCompletedChange(taskId) {
+    let newTasks=this.state.tasks;
+    newTasks.forEach(element => {
+      if(element._id === taskId){
+        element.done = true
+        const newTask2 = {
+          description: element.description,
+          time: element.time,
+          eventId: element.eventId,
+          done: element.done
+        };
+        axios.put(api+'/'+taskId, newTask2).then(res => {
+          console.log(res.data);
+          this.fetchData()
+        });
+      }
+      
+
+    });
+    this.setState({
+      tasks : newTasks
+    });
+  }
+
+  handleDelete(taskId) {
+    axios.delete(api+'/'+taskId).then(res => {
+      console.log(res.data);
+      this.fetchData();
+    });
+  }
+
   componentDidMount() {
+    const { eventId } = this.props.match.params;
+    this.setState({
+      eventId: eventId
+    })
     this.fetchData();
   }
 
@@ -113,30 +163,57 @@ class Tasks extends Component {
           <tbody>
             {this.state.tasks.map(task => (
               <tr>
-                <td>{task.id}</td>
+                <td>{this.state.tasks.indexOf(task)}</td>
                 <td>{task.description}</td>
                 <td>{task.time}</td>
-                {task.done ? (
-                  <td>
-                    <h3>
-                      {" "}
-                      <FaCheck
-                        style={{
-                          fontSize: 18,
-                          display: "block",
-                          margin: "0 auto"
-                        }}
-                      />
-                    </h3>
+                <td>
+                  <Button onClick={() => this.handleCompletedChange(task._id)}>Mark as Completed</Button>
+                </td>
+                <td>
+                  <DropdownButton id="dropdown-basic-button" title={
+        <span><i className="fa fa-user fa-fw"></i> </span>
+      }>
+  <Dropdown.Item onClick= {() => this.handleDelete(task._id)}>Delete</Dropdown.Item>
+</DropdownButton>
                   </td>
-                ) : (
-                  <td>
-                  </td>
-                )}
               </tr>
             ))}
           </tbody>
         </Table>
+
+        <Row className="mt-5 mb-3">
+          <Col lg={8} md={8} sm={8}>
+            <h3>Completed Tasks</h3>
+          </Col>
+        </Row>
+
+        <Table>
+          <thead>
+            <tr>
+              <th>N°</th>
+              <th>Description</th>
+              <th>Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.state.completedTasks.map(task => (
+              <tr>
+                <td>{this.state.completedTasks.indexOf(task)}</td>
+                <td>{task.description}</td>
+                <td>{task.time}</td>
+                <td>
+                  <DropdownButton id="dropdown-basic-button" title={
+        <span><i className="fa fa-user fa-fw"></i> </span>
+      }>
+  <Dropdown.Item onClick= {() => this.handleDelete(task._id)}>Delete</Dropdown.Item>
+</DropdownButton>
+                  </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+
+
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Add a Task</Modal.Title>

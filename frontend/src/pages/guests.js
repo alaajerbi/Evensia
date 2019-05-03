@@ -143,10 +143,10 @@ class Guests extends Component {
     return (
       <Container>
         <Row className="mt-5 mb-3">
-          <Col lg={8} md={8} sm={8}>
+          <Col lg={6} md={6} sm={6}>
             <h3>Guests</h3>
           </Col>
-          <Col lg={4} md={4} sm={4}>
+          <Col lg={3} md={3} sm={3}>
             <Button
               variant="warning"
               className="float-right"
@@ -156,7 +156,7 @@ class Guests extends Component {
               Track Presence
             </Button>
           </Col>
-          <Col lg={4} md={4} sm={4}>
+          <Col lg={3} md={3} sm={3}>
             <Button
               variant="danger"
               className="float-right"
