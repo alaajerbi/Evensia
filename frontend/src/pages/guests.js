@@ -13,7 +13,6 @@ import {
   Dropdown
 } from "react-bootstrap";
 import { FaCheck } from "react-icons/fa";
-import "../assets/css/Guests.css";
 import axios from "axios";
 
 const api = "http://localhost:3009/guests";

@@ -1,8 +1,16 @@
 import React, { Component } from "react";
-import "../assets/css/login.css";
 import axios from "axios";
-import { Button, Form, FormControl, FormGroup } from "react-bootstrap";
-import  { Redirect } from "react-router-dom";
+import {
+  Container,
+  Alert,
+  Button,
+  Form,
+  FormControl,
+  FormGroup,
+  Row,
+  Col
+} from "react-bootstrap";
+import { Redirect } from "react-router-dom";
 const api = "http://localhost:3009/auth";
 
 class Login extends Component {
@@ -10,6 +18,7 @@ class Login extends Component {
     super(props);
     this.state = {
       redirect: false,
+      error: null,
       email: "",
       password: ""
     };
@@ -37,11 +46,16 @@ class Login extends Component {
       }
     };
     axios.post(api, newUser, reqHeaders).then(res => {
-      localStorage.setItem("token", res.headers.token);
-      console.log(res.headers.token);
-      this.setState({
-        redirect: true
-      });
+      if (res.data.status === "success") {
+        localStorage.setItem("token", res.headers.token);
+        this.setState({
+          redirect: true
+        });
+      } else {
+        this.setState({
+          error: res.data.error
+        });
+      }
     });
 
     // axios({
@@ -60,16 +74,20 @@ class Login extends Component {
     // });
   }
   render() {
-    let { redirect } = this.state;
+    let { redirect, error } = this.state;
     if (redirect) {
       return <Redirect to="/dashboard" />;
     } else {
       return (
-        <div>
-          <span>
-            <Form>
-              <FormGroup>
-                <Form.Label>Email:</Form.Label>
+        <Container style={styles.container}>
+          <h4 className="mb-3">Login</h4>
+          {error && <Alert style={{width: 350}} variant="danger">{error}</Alert>}
+          <Form style={styles.formContainer}>
+            <FormGroup as={Row}>
+              <Form.Label column sm="4">
+                Email:
+              </Form.Label>
+              <Col sm="8">
                 <FormControl
                   size="md"
                   type="email"
@@ -78,9 +96,13 @@ class Login extends Component {
                   name="email"
                   placeholder="email"
                 />
-              </FormGroup>
-              <FormGroup>
-                <Form.Label>Password:</Form.Label>
+              </Col>
+            </FormGroup>
+            <FormGroup as={Row}>
+              <Form.Label column sm="4">
+                Password:
+              </Form.Label>
+              <Col sm="8">
                 <FormControl
                   size="md"
                   type="password"
@@ -89,18 +111,37 @@ class Login extends Component {
                   name="password"
                   placeholder="password"
                 />
-              </FormGroup>
-              <Button variant="primary" onClick={this.handleLogin}>
+              </Col>
+            </FormGroup>
+            <div style={styles.btnContainer}>
+              <Button
+                style={{ padding: "10px 20px" }}
+                variant="primary"
+                onClick={this.handleLogin}
+              >
                 Login
               </Button>
-            </Form>
-          </span>
-        </div>
+            </div>
+          </Form>
+        </Container>
       );
     }
   }
 }
-const style = {
-  margin: 15
+const styles = {
+  container: {
+    height: "100vh",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  formContainer: {
+    maxWidth: 400,
+    padding: 15
+  },
+  btnContainer: {
+    textAlign: "center"
+  }
 };
 export default Login;
