@@ -23,6 +23,9 @@ class Guests extends Component {
     this.handleClose = this.handleClose.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.fetchData = this.fetchData.bind(this);
+    this.handleShowPresence = this.handleShowPresence.bind(this);
+    this.handlePresentChange = this.handlePresentChange.bind(this);
 
     this.state = {
       guests: [],
@@ -32,7 +35,8 @@ class Guests extends Component {
       description: "",
       present: false,
       gender: "Male",
-      eventId: "5cb8131de52ed8555cd72a87"
+      eventId: "",
+      trackPresence: false,
     };
   }
 
@@ -45,11 +49,21 @@ class Guests extends Component {
     this.setState({ show: true });
   }
 
+  handleShowPresence() {
+    this.setState({ trackPresence: !this.state.trackPresence})
+  }
+
   fetchData() {
     axios
       .get(api)
       .then(response => {
-        this.setState({ guests: response.data });
+        let guests = []
+        response.data.forEach(element => {
+          if(element.eventId === this.state.eventId)
+          guests.push(element);
+        });
+
+        this.setState({ guests: guests });
       })
       .catch(function(error) {
         console.log(error);
@@ -82,17 +96,55 @@ class Guests extends Component {
     });
   }
 
+  handlePresentChange(guestId) {
+    let newGuests=this.state.guests;
+    newGuests.forEach(element => {
+      if(element._id === guestId){
+        element.present = !element.present
+        const newGuest2 = {
+          name: element.name,
+          tel: element.tel,
+          description: element.description,
+          gender: element.gender,
+          present: "" + element.present
+        };
+        axios.put(api+'/'+guestId, newGuest2).then(res => {
+          console.log(res.data);
+        });
+      }
+      
+
+    });
+    this.setState({
+      guests : newGuests
+    });
+  }
+
   componentDidMount() {
+    const { eventId } = this.props.match.params;
+    this.setState({
+      eventId: eventId
+    })
     this.fetchData();
   }
 
   render() {
-    console.log(localStorage.getItem('token'));
+    console.log(this.state.guests);
     return (
       <Container>
         <Row className="mt-5 mb-3">
           <Col lg={8} md={8} sm={8}>
             <h3>Guests</h3>
+          </Col>
+          <Col lg={4} md={4} sm={4}>
+            <Button
+              variant="warning"
+              className="float-right"
+              style={{ marginRight: "20px" }}
+              onClick={this.handleShowPresence}
+            >
+              Track Presence
+            </Button>
           </Col>
           <Col lg={4} md={4} sm={4}>
             <Button
@@ -114,7 +166,8 @@ class Guests extends Component {
               <th>Phone</th>
               <th>Description</th>
               <th>Gender</th>
-              <th>Presence</th>
+              {this.state.trackPresence ?
+              <th>Presence</th>:<h1></h1>}
             </tr>
           </thead>
           <tbody>
@@ -125,23 +178,16 @@ class Guests extends Component {
                 <td> {guest.tel}</td>
                 <td>{guest.description}</td>
                 <td>{guest.gender}</td>
-                {guest.present ? (
+                {this.state.trackPresence ?(
                   <td>
-                    <h3>
-                      {" "}
-                      <FaCheck
-                        style={{
-                          fontSize: 18,
-                          display: "block",
-                          margin: "0 auto"
-                        }}
-                      />
-                    </h3>
+                    <input
+                      name="isGoing"
+                      type="checkbox"
+                      defaultChecked={guest.present}
+                      onChange={() => this.handlePresentChange(guest._id)} />
                   </td>
-                ) : (
-                  <td>
-                  </td>
-                )}
+                  ):(<td>
+                  </td>)}
               </tr>
             ))}
           </tbody>
