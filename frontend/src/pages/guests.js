@@ -8,7 +8,9 @@ import {
   Col,
   Form,
   FormControl,
-  FormGroup
+  FormGroup,
+  DropdownButton,
+  Dropdown
 } from "react-bootstrap";
 import { FaCheck } from "react-icons/fa";
 import "../assets/css/Guests.css";
@@ -188,6 +190,16 @@ class Guests extends Component {
                   </td>
                   ):(<td>
                   </td>)}
+
+                  <td>
+                  <DropdownButton id="dropdown-basic-button" title={
+        <span><i className="fa fa-user fa-fw"></i> </span>
+      }>
+  <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+  <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+  <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+</DropdownButton>
+</td>
               </tr>
             ))}
           </tbody>
