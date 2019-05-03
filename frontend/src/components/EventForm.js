@@ -15,14 +15,15 @@ class EventForm extends Component {
     constructor(props) {
         super(props);
 
-        const { name, description, date, designColor, location } = props;
+        const { name, description, date, designColor, location, userId } = props;
     
         this.state = {
           name,
           description,
           date,
           designColor,
-          location
+          location,
+          userId
         };
     
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -46,13 +47,14 @@ class EventForm extends Component {
       }
 
       handleSave() {
-          const { name, description, date, location, designColor } = this.state;
+          const { name, description, date, location, designColor, userId } = this.state;
           const event = {
               name,
               description,
               date,
               location,
-              designColor
+              designColor,
+              userId
           };
 
           this.props.onSave(event);

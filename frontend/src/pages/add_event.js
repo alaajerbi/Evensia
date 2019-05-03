@@ -4,12 +4,17 @@ import { Alert, AlertLink, Container } from "react-bootstrap";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import AuthPage from "../components/AuthPage";
+import AwesomeNavbar from '../components/AwesomeNavbar';
+
 
 class AddEvent extends Component {
   constructor(props) {
     super(props);
 
+    let userId = localStorage.getItem('userId');
+
     this.state = {
+      userId,
       loading: false,
       status: null,
       error: null
@@ -18,6 +23,7 @@ class AddEvent extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.goBackToForm = this.goBackToForm.bind(this);
   }
+
 
   handleSubmit(event) {
     this.setState(
@@ -59,6 +65,8 @@ class AddEvent extends Component {
     let { loading, status, error } = this.state;
     return (
       <AuthPage>
+        
+        <AwesomeNavbar/>
         <Container className="mt-5 mb-5">
           {(loading && <h4>Creating your event...Please wait</h4>) ||
             (status === "success" && (
@@ -80,12 +88,15 @@ class AddEvent extends Component {
               <div>
                 <h4>Create a new event</h4>
                 <EventForm
+                  userId={this.state.userId}
                   submitBtn="Create event"
                   onSave={this.handleSubmit}
                 />
               </div>
             )}
+            
         </Container>
+
       </AuthPage>
     );
   }

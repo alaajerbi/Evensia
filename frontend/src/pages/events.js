@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { Alert, AlertLink, Container } from "react-bootstrap";
 import axios from "axios";
 import AuthPage from "../components/AuthPage";
+import AwesomeNavbar from '../components/AwesomeNavbar';
 
 const api = "http://localhost:3009/events";
 
@@ -12,8 +13,11 @@ class Events extends Component {
   constructor(props) {
     super(props);
 
+    let userId = localStorage.getItem('userId');
+
     this.state = {
-      events: []
+      events: [],
+      userId
     };
 
     this.fetchData = this.fetchData.bind(this);
@@ -22,7 +26,7 @@ class Events extends Component {
 
   fetchData() {
     axios
-      .get(api)
+      .get('http://localhost:3009/events/user/' + this.state.userId)
       .then(response => {
         console.log(response.data);
         this.setState({ events: response.data });
@@ -55,6 +59,7 @@ class Events extends Component {
     let { events } = this.state;
     return (
       <AuthPage>
+        <AwesomeNavbar />
         <Container className="mt-5">
           {(events.length === 0 && (
             <Alert variant="warning">

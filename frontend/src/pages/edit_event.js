@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 import axios from "axios";
+import {Link} from "react-router-dom";
 import EventForm from "../components/EventForm";
-import { Alert, AlertLink } from "react-bootstrap";
+import { Alert, AlertLink, Container } from "react-bootstrap";
 import AuthPage from "../components/AuthPage";
+import AwesomeNavbar from '../components/AwesomeNavbar';
+
 
 const api = "http://localhost:3009/events/";
 
@@ -80,7 +83,7 @@ class EditEvent extends Component {
       content = <p>Loading...</p>;
     } else {
       if (status === "success") {
-        content = <Alert variant="success">Event successfully updated! <Alert.Link href="">Go back</Alert.Link></Alert>
+        content = <Alert variant="success">Event successfully updated! <Link to='/events'>Go back</Link></Alert>
       } else if (status === "failed") {
         content = <Alert variant="danger">Update failed!</Alert>
       } else {
@@ -97,7 +100,7 @@ class EditEvent extends Component {
         );
       }
     }
-    return(<AuthPage>{content}</AuthPage>)
+    return(<AuthPage><AwesomeNavbar/><Container>{content}</Container></AuthPage>)
   }
 }
 

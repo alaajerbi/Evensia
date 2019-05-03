@@ -24,12 +24,15 @@ router.post('/',async (req,res)=>{
         error: 'Invalid password'
     });
 
+    console.log(user);
+
     const token=user.generateAuthToken();
     res.header({
         'Access-Control-Expose-Headers': 'token',
         'token':token,
      }).json({
-         status: 'success'
+         status: 'success',
+         userId: user._id
      });
 
 });

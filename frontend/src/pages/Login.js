@@ -49,6 +49,9 @@ class Login extends Component {
     axios.post(api, newUser, reqHeaders).then(res => {
       if (res.data.status === "success") {
         localStorage.setItem("token", res.headers.token);
+        let  userId = res.data.userId;
+        console.log(userId);
+        localStorage.setItem('userId', userId);
         this.setState({
           redirect: true
         });
@@ -77,7 +80,7 @@ class Login extends Component {
   render() {
     let { redirect, error } = this.state;
     if (redirect) {
-      return <Redirect to="/dashboard" />;
+      return <Redirect to="/events" />;
     } else {
       return (
         <Container style={styles.container}>

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
+import Signup from './pages/sign-up';
 import {
   Dashboard,
   LandingPage,
@@ -20,15 +21,15 @@ class App extends Component {
         {/*<Sidebarr/>*/}
         <Router>
           <div>
-            <Route exact path="/" component={LandingPage} />
+            <Route exact path="/" component={Login} />
             <Route path="/login" component={Login} />
-            <Route path="/dashboard" component={Dashboard} />
+            <Route path="/signup" component={Signup} />
+            <Route exact path="/events" component={Events} />
             <Route path="/guests" component={Guests} />
             <Route path="/tasks" component={Tasks} />
             <Route exact path="/event/:eventId/edit" component={EditEvent} />
             <Route exact path="/event/:eventId/guests" component={Guests} />
             <Route exact path="/event/:eventId" component={Event} />
-            <Route exact path="/events" component={Events} />
             <Route path="/events/create" component={AddEvent} />
           </div>
         </Router>

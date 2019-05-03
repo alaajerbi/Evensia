@@ -18,17 +18,21 @@ router.get('/:id',wrapper(async (req,res)=>{
 
 router.post('/',wrapper(async (req,res)=>{
     const err=validateUser(req.body);
-    if(err) return res.status(400).send(err.details[0].message);
+    if(err) return res.json({status: 'failed', error: err.details[0].message});
 
     let user=await User.findOne({email: req.body.email});
-    if(user) return res.status(400).send('User already Registred');
+    if(user) return res.json({status: 'failed', error: 'User already Registred'});
 
     user=new User({email:req.body.email,fullName:req.body.fullName});
     user.setPassword(req.body.password);
     // logger.info(user);
 
     await user.save();
-    res.send(user);
+    let token = user.generateAuthToken();
+    res.header({
+        'Access-Control-Expose-Headers': 'token',
+        'token':token,
+     }).json({status: 'success', user});
 }));
 
 router.put('/:id',wrapper(async(req,res)=>{
