@@ -8,7 +8,9 @@ import {
   Col,
   Form,
   FormControl,
-  FormGroup
+  FormGroup,
+  DropdownButton,
+  Dropdown
 } from "react-bootstrap";
 import { FaCheck } from "react-icons/fa";
 import "../assets/css/Guests.css";
@@ -22,6 +24,7 @@ class Guests extends Component {
     this.handleShow = this.handleShow.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleSave = this.handleSave.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.fetchData = this.fetchData.bind(this);
     this.handleShowPresence = this.handleShowPresence.bind(this);
@@ -120,6 +123,13 @@ class Guests extends Component {
     });
   }
 
+  handleDelete(guestId) {
+    axios.delete(api+'/'+guestId).then(res => {
+      console.log(res.data);
+      this.fetchData();
+    });
+  }
+
   componentDidMount() {
     const { eventId } = this.props.match.params;
     this.setState({
@@ -133,10 +143,10 @@ class Guests extends Component {
     return (
       <Container>
         <Row className="mt-5 mb-3">
-          <Col lg={8} md={8} sm={8}>
+          <Col lg={6} md={6} sm={6}>
             <h3>Guests</h3>
           </Col>
-          <Col lg={4} md={4} sm={4}>
+          <Col lg={3} md={3} sm={3}>
             <Button
               variant="warning"
               className="float-right"
@@ -146,7 +156,7 @@ class Guests extends Component {
               Track Presence
             </Button>
           </Col>
-          <Col lg={4} md={4} sm={4}>
+          <Col lg={3} md={3} sm={3}>
             <Button
               variant="danger"
               className="float-right"
@@ -173,7 +183,7 @@ class Guests extends Component {
           <tbody>
             {this.state.guests.map(guest => (
               <tr>
-                <td>{guest.id}</td>
+                <td>{this.state.guests.indexOf(guest)}</td>
                 <td> {guest.name} </td>
                 <td> {guest.tel}</td>
                 <td>{guest.description}</td>
@@ -188,6 +198,13 @@ class Guests extends Component {
                   </td>
                   ):(<td>
                   </td>)}
+                  <td>
+                  <DropdownButton id="dropdown-basic-button" title={
+        <span><i className="fa fa-user fa-fw"></i> </span>
+      }>
+  <Dropdown.Item onClick= {() => this.handleDelete(guest._id)}>Delete</Dropdown.Item>
+</DropdownButton>
+                  </td>
               </tr>
             ))}
           </tbody>
