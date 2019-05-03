@@ -44,7 +44,6 @@ class Guests extends Component {
   }
 
   handleClose() {
-    localStorage.removeItem('token')
     this.setState({ show: false });
   }
 
